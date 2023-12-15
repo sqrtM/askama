@@ -347,9 +347,9 @@ pub fn markdown<E, S>(
     s: S,
     options: Option<&comrak::Options>,
 ) -> Result<MarkupDisplay<E, String>>
-where
-    E: Escaper,
-    S: AsRef<str>,
+    where
+        E: Escaper,
+        S: Into<String>,
 {
     use comrak::{markdown_to_html, Options};
 
@@ -360,7 +360,7 @@ where
     defaults.extension.autolink = true;
     defaults.render.escape = true;
 
-    let s = markdown_to_html(s.as_ref(), options.unwrap_or(&defaults));
+    let s = markdown_to_html(&s.into(), options.unwrap_or(&defaults));
     Ok(MarkupDisplay::new_safe(s, e))
 }
 
